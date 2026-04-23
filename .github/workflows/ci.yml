@@ -16,58 +16,11 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
-            - name: Install clang-format
-              run: |
-                  sudo apt-get update
-                  sudo apt-get install -y clang-format-22
-
-            - name: Set clang-format binary
-              shell: bash
-              run: |
-                  set -euo pipefail
-                  echo "CLANG_FORMAT=clang-format-22" >> "$GITHUB_ENV"
-
-            - name: Show clang-format version
-              shell: bash
-              run: |
-                  set -euo pipefail
-                  "$CLANG_FORMAT" --version
-
-            - name: Verify clang-format version is pinned
-              shell: bash
-              run: |
-                  set -euo pipefail
-                  VERSION_STR=$("$CLANG_FORMAT" --version)
-                  echo "$VERSION_STR"
-                  if [[ "$VERSION_STR" != *"22.1.1"* ]]; then
-                    echo "Expected clang-format 22.1.1 but got: $VERSION_STR"
-                    exit 1
-                  fi
-
             - name: Check formatting
-              shell: bash
-              run: |
-                  set -euo pipefail
-
-                  FILES=$(git ls-files '*.h' '*.cc' '*.cpp')
-
-                  if [ -z "$FILES" ]; then
-                    echo "No source files found"
-                    exit 0
-                  fi
-
-                  while IFS= read -r file; do
-                    [ -n "$file" ] || continue
-                    "$CLANG_FORMAT" -i "$file"
-                  done <<< "$FILES"
-
-                  if ! git diff --quiet; then
-                    echo "Code is not formatted correctly. Please run clang-format."
-                    git diff
-                    exit 1
-                  else
-                    echo "Formatting OK"
-                  fi
+              uses: RafikFarhad/clang-format-github-action@v6
+              with:
+                  sources: "include/**/*.h,src/**/*.cc,src/**/*.cpp,test/**/*.cc,test/**/*.cpp"
+                  style: file
 
             - name: Check line endings
               shell: bash
