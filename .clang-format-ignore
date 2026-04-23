@@ -1,0 +1,43 @@
+# Build output
+build/**
+**/build/**
+
+# CMake generated files
+CMakeFiles/**
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+DartConfiguration.tcl
+*.vcxproj
+*.vcxproj.filters
+*.sln
+*.slnx
+
+# External dependencies
+build/_deps/**
+**/_deps/**
+**/googletest-*
+lib/gtest/**
+lib/gmock/**
+
+# IDE / editor
+.vscode/**
+.idea/**
+
+# Git / CI (no source formatting needed)
+.github/**
+.githooks/**
+
+# Scripts (optional: remove if you want them formatted)
+script/**
+
+# Binary / temp
+*.o
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+
+# Generated test/build dirs
+Testing/**

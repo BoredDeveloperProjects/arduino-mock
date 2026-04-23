@@ -96,3 +96,22 @@ add_test(NAME tests COMMAND tests)
 ## Contribution
 
 Please send a pull-request.  
+
+### Enable pre-commit formatting check
+
+This repository includes a Git pre-commit hook in `.githooks/pre-commit`.
+
+Run this once after cloning:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+On Linux/macOS, the hook runs `script/format_check.sh`.
+On Windows, the hook runs `script/format_check.ps1`.
+
+If needed on Linux/macOS, make sure the hook is executable:
+
+```sh
+chmod +x .githooks/pre-commit
+```

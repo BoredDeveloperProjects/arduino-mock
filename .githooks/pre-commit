@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+
+if [ "${OS:-}" = "Windows_NT" ]; then
+    if command -v pwsh >/dev/null 2>&1; then
+      exec pwsh -NoProfile -ExecutionPolicy Bypass -File "$ROOT_DIR/script/format_check.ps1"
+    else
+      exec powershell -NoProfile -ExecutionPolicy Bypass -File "$ROOT_DIR/script/format_check.ps1"
+    fi
+fi
+
+exec bash "$ROOT_DIR/script/format_check.sh"
