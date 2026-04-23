@@ -60,23 +60,56 @@ jobs:
                   fi
 
     build-and-test:
-        name: Build and Test
-        runs-on: ubuntu-latest
+        name: Build and Test (${{ matrix.os }})
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      cmake_generator: Ninja
+                      cmake_configure_args: -DCMAKE_BUILD_TYPE=Release
+                      cmake_build_args: ""
+                      ctest_args: ""
+                    - os: windows-latest
+                      cmake_generator: Ninja
+                      cmake_configure_args: -DCMAKE_BUILD_TYPE=Release
+                      cmake_build_args: ""
+                      ctest_args: ""
 
         steps:
             - name: Checkout
               uses: actions/checkout@v4
 
-            - name: Install build tools
+            - name: Install build tools (Linux)
+              if: runner.os == 'Linux'
               run: |
                   sudo apt-get update
                   sudo apt-get install -y cmake ninja-build g++
 
+            - name: Install build tools (Windows)
+              if: runner.os == 'Windows'
+              shell: pwsh
+              run: |
+                  choco install cmake ninja -y --no-progress
+
+            - name: Configure MSVC build environment
+              if: runner.os == 'Windows'
+              uses: ilammy/msvc-dev-cmd@v1
+
+            - name: Cache CMake FetchContent dependencies
+              uses: actions/cache@v4
+              with:
+                  path: .cache/fetchcontent
+                  key: ${{ runner.os }}-fetchcontent-${{ hashFiles('CMakeLists.txt', 'test/CMakeLists.txt') }}
+                  restore-keys: |
+                      ${{ runner.os }}-fetchcontent-
+
             - name: Configure
-              run: cmake -S . -B build -G Ninja -DARDUINO_BOARD_LOGGER_BUILD_TESTS=ON
+              run: cmake -S . -B build -G "${{ matrix.cmake_generator }}" -DBUILD_TESTING=ON -DFETCHCONTENT_BASE_DIR="${{ github.workspace }}/.cache/fetchcontent" ${{ matrix.cmake_configure_args }}
 
             - name: Build
-              run: cmake --build build
+              run: cmake --build build ${{ matrix.cmake_build_args }}
 
             - name: Test
-              run: ctest --test-dir build --output-on-failure
+              run: ctest --test-dir build --output-on-failure ${{ matrix.ctest_args }}
