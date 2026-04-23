@@ -6,6 +6,7 @@
 
 #include <stdint.h>
 
+#include "Print.h"
 #include "Serial.h"
 #include "Wire.h"
 
