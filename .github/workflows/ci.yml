@@ -1,0 +1,82 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - main
+            - master
+    pull_request:
+
+jobs:
+    format:
+        name: Format Check
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Install clang-format
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y clang-format
+
+            - name: Show clang-format version
+              run: clang-format --version
+
+            - name: Check formatting
+              shell: bash
+              run: |
+                  set -euo pipefail
+
+                  FILES=$(git ls-files '*.h' '*.cc')
+
+                  if [ -z "$FILES" ]; then
+                    echo "No source files found"
+                    exit 0
+                  fi
+
+                  clang-format -i $FILES
+
+                  if ! git diff --quiet; then
+                    echo "Code is not formatted correctly. Please run clang-format."
+                    git diff
+                    exit 1
+                  else
+                    echo "Formatting OK"
+                  fi
+
+            - name: Check line endings
+              shell: bash
+              run: |
+                  set -euo pipefail
+
+                  if git grep -I $'\r'; then
+                    echo "Do not use CRLF."
+                    echo "Please convert to LF, Unix new line style."
+                    exit 1
+                  else
+                    echo "Line endings OK."
+                  fi
+
+    build-and-test:
+        name: Build and Test
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Install build tools
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y cmake ninja-build g++
+
+            - name: Configure
+              run: cmake -S . -B build -G Ninja -DARDUINO_BOARD_LOGGER_BUILD_TESTS=ON
+
+            - name: Build
+              run: cmake --build build
+
+            - name: Test
+              run: ctest --test-dir build --output-on-failure
