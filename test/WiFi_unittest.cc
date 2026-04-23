@@ -1,5 +1,7 @@
-#include "arduino-mock/Arduino.h"
 #include "arduino-mock/WiFi.h"
+
+#include "arduino-mock/Arduino.h"
+
 #include "gtest/gtest.h"
 
 WiFi_ wifi;

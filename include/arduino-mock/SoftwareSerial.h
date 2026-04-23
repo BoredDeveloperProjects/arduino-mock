@@ -26,10 +26,8 @@ using ::testing::Invoke;
   upmerging from the original project into this fork.
 */
 class SoftwareSerial : public Serial_ {
-
-public:
-  SoftwareSerial(uint8_t receivePin, uint8_t transmitPin,
-                 bool inverse_logic = false) {};
+ public:
+  SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic = false) {};
   ~SoftwareSerial() {};
 
   // Arduino's SoftwareSerial methods not present in HardwareSerial
@@ -42,7 +40,7 @@ public:
   // WiTraC extensions for SoftwareSerial
   virtual void restore_listener() {}
 
-protected:
+ protected:
   SoftwareSerial() {}
 };
 
@@ -60,8 +58,7 @@ protected:
   contents of the buffer.
 */
 class SoftwareSerialFake : public SoftwareSerial {
-
-public:
+ public:
   /**
     \brief Load user specified data into SoftwareSerialFake buffer
     \param buffer User buffer to copy the data from
@@ -76,7 +73,7 @@ public:
   uint8_t read();
   uint8_t at(const uint8_t index);
 
-private:
+ private:
   static const uint8_t buffer_size = 128;
   uint8_t buffer[buffer_size] = {0};
   uint8_t buffer_head = 0;
@@ -90,8 +87,7 @@ private:
   read and operator []
 */
 class SoftwareSerialMock : public SoftwareSerial {
-
-public:
+ public:
   // HardwareSerial methods (copied from SerialMock)
   MOCK_METHOD1(write, size_t(uint8_t));
   MOCK_METHOD1(write, size_t(const char *str));
@@ -130,8 +126,7 @@ public:
     \param ignore_calls Flag to set the mock to expect and ignore all calls on
            methods related to the buffer (available, read and operator [])
   */
-  void mock_buffer_load(const uint8_t buffer[], const uint8_t len,
-                        bool ignore_calls = true) {
+  void mock_buffer_load(const uint8_t buffer[], const uint8_t len, bool ignore_calls = true) {
     fake_.buffer_load(buffer, len);
     if (ignore_calls) {
       EXPECT_CALL(*this, available()).WillRepeatedly(DoDefault());
@@ -139,8 +134,7 @@ public:
       EXPECT_CALL(*this, at(_)).WillRepeatedly(DoDefault());
     }
   }
-  void mock_buffer_load(const char buffer[], const uint8_t len,
-                        bool ignore_calls = true) {
+  void mock_buffer_load(const char buffer[], const uint8_t len, bool ignore_calls = true) {
     mock_buffer_load((const uint8_t *)buffer, len, ignore_calls);
   }
 
@@ -149,16 +143,13 @@ public:
     operator [], to be redirected to SoftwareSerialFake
   */
   SoftwareSerialMock() {
-    ON_CALL(*this, available())
-        .WillByDefault(Invoke(&fake_, &SoftwareSerialFake::available));
-    ON_CALL(*this, read())
-        .WillByDefault(Invoke(&fake_, &SoftwareSerialFake::read));
-    ON_CALL(*this, at(_))
-        .WillByDefault(Invoke(&fake_, &SoftwareSerialFake::at));
+    ON_CALL(*this, available()).WillByDefault(Invoke(&fake_, &SoftwareSerialFake::available));
+    ON_CALL(*this, read()).WillByDefault(Invoke(&fake_, &SoftwareSerialFake::read));
+    ON_CALL(*this, at(_)).WillByDefault(Invoke(&fake_, &SoftwareSerialFake::at));
   }
 
-private:
-  SoftwareSerialFake fake_; // Keeps an instance of the fake in the mock.
+ private:
+  SoftwareSerialFake fake_;  // Keeps an instance of the fake in the mock.
 };
 
-#endif // SOFTWARE_SERIAL_H
+#endif  // SOFTWARE_SERIAL_H

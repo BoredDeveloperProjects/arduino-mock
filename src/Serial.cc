@@ -35,20 +35,21 @@ void printDouble(double num, int digits) {
   std::cout.precision(ss);
 }
 
-template <typename T> void printBase(T num, int base) {
+template <typename T>
+void printBase(T num, int base) {
   switch (base) {
-  case BIN:
-    assert(!"Need to implement this");
-    break;
-  case OCT:
-    std::cout << std::oct;
-    break;
-  case DEC:
-    std::cout << std::dec;
-    break;
-  case HEX:
-    std::cout << std::hex;
-    break;
+    case BIN:
+      assert(!"Need to implement this");
+      break;
+    case OCT:
+      std::cout << std::oct;
+      break;
+    case DEC:
+      std::cout << std::dec;
+      break;
+    case HEX:
+      std::cout << std::hex;
+      break;
   }
   std::cout << num << std::dec;
 }

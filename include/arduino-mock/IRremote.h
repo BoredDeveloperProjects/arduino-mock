@@ -14,21 +14,21 @@
 #include <stdint.h>
 
 class decode_results {
-public:
+ public:
   decode_results();
-  int16_t decode_type;       // NEC, SONY, RC5, UNKNOWN
-  uint16_t panasonicAddress; // This is only used for decoding Panasonic data
-  uint32_t value;            // Decoded value
-  int16_t bits;              // Number of bits in decoded value
-  volatile uint32_t *rawbuf; // Raw intervals in .5 us ticks
-  int16_t rawlen;            // Number of records in rawbuf.
+  int16_t decode_type;        // NEC, SONY, RC5, UNKNOWN
+  uint16_t panasonicAddress;  // This is only used for decoding Panasonic data
+  uint32_t value;             // Decoded value
+  int16_t bits;               // Number of bits in decoded value
+  volatile uint32_t *rawbuf;  // Raw intervals in .5 us ticks
+  int16_t rawlen;             // Number of records in rawbuf.
 };
 
 class IRrecvMock {
-private:
+ private:
   uint32_t irValue;
 
-public:
+ public:
   IRrecvMock();
 
   void setIRValue(uint32_t value) { irValue = value; };
@@ -40,7 +40,7 @@ public:
 };
 
 class IRrecv_ {
-public:
+ public:
   IRrecv_(int16_t recvpin);
 
   int16_t decode(decode_results *results);
@@ -55,4 +55,4 @@ typedef IRrecv_ IRrecv;
 IRrecvMock *irrecvMockInstance();
 void releaseIRrecvMock();
 
-#endif // IRremote_h
+#endif  // IRremote_h

@@ -4,9 +4,10 @@
 #ifndef ARDUINO_H
 #define ARDUINO_H
 
+#include <stdint.h>
+
 #include "Serial.h"
 #include "Wire.h"
-#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -78,8 +79,7 @@ extern "C" {
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
-#define bitWrite(value, bit, bitvalue)                                         \
-  (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
+#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 #define bit(b) (1UL << (b))
 
 typedef uint8_t boolean;
@@ -112,19 +112,19 @@ void setup(void);
 void loop(void);
 
 #ifdef __cplusplus
-} // extern "C"
+}  // extern "C"
 #endif
 
 #include <gmock/gmock.h>
 
-#define UNUSED(expr)                                                           \
-  do {                                                                         \
-    (void)(expr);                                                              \
+#define UNUSED(expr) \
+  do {               \
+    (void)(expr);    \
   } while (0)
 #define F(x) (x)
 
 class ArduinoMock {
-public:
+ public:
   MOCK_METHOD2(pinMode, void(uint8_t, uint8_t));
   MOCK_METHOD2(analogWrite, void(uint8_t, int));
   MOCK_METHOD2(digitalWrite, void(uint8_t, uint8_t));
@@ -136,4 +136,4 @@ public:
 ArduinoMock *arduinoMockInstance();
 void releaseArduinoMock();
 
-#endif // ARDUINO_H
+#endif  // ARDUINO_H

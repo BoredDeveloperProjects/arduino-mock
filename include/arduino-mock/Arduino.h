@@ -4,13 +4,13 @@
 #ifndef ARDUINO_H
 #define ARDUINO_H
 
+#include <cstring>  //for strlen()
 #include <stdint.h>
+#include <string.h>  //for memcmp()
+#include <string>
 
 #include "Serial.h"
 #include "Wire.h"
-#include <cstring>  //for strlen()
-#include <string.h> //for memcmp()
-#include <string>
 
 // All *_near and *_far functions provides the same functionnality as their
 // counterpart.
@@ -93,8 +93,7 @@ extern "C" {
 #define RISING 3
 
 #define NOT_AN_INTERRUPT -1
-#define digitalPinToInterrupt(p)                                               \
-  ((p) == 2 ? 0 : ((p) == 3 ? 1 : NOT_AN_INTERRUPT))
+#define digitalPinToInterrupt(p) ((p) == 2 ? 0 : ((p) == 3 ? 1 : NOT_AN_INTERRUPT))
 
 #define A0
 #define A1
@@ -112,8 +111,7 @@ extern "C" {
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
-#define bitWrite(value, bit, bitvalue)                                         \
-  (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
+#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 #define bit(b) (1UL << (b))
 
 typedef uint8_t boolean;
@@ -146,29 +144,27 @@ void noInterrupts(void);
 void yield(void);
 
 #ifdef __cplusplus
-} // extern "C"
+}  // extern "C"
 #endif
 
 #include <gmock/gmock.h>
 
-#define UNUSED(expr)                                                           \
-  do {                                                                         \
-    (void)(expr);                                                              \
+#define UNUSED(expr) \
+  do {               \
+    (void)(expr);    \
   } while (0)
 #define F(x) (x)
 
 class ArduinoMock {
-private:
+ private:
   time_t currentMillis;
 
-public:
+ public:
   ArduinoMock();
 
   time_t getMillis() { return currentMillis; };
 
-  void setMillisRaw(time_t milliseconds) {
-    currentMillis = (milliseconds & UINT32_MAX);
-  };
+  void setMillisRaw(time_t milliseconds) { currentMillis = (milliseconds & UINT32_MAX); };
   void setMillisSecs(time_t seconds) { setMillisRaw(seconds * 1000); };
   void setMillisMins(time_t minutes) { setMillisRaw(minutes * 60 * 1000); };
   void setMillisHrs(float hours) { setMillisRaw(hours * 60 * 60 * 1000); };
@@ -192,4 +188,4 @@ public:
 ArduinoMock *arduinoMockInstance();
 void releaseArduinoMock();
 
-#endif // ARDUINO_H
+#endif  // ARDUINO_H

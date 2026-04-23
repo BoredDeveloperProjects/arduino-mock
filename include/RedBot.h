@@ -39,30 +39,28 @@ enum WHEEL {
   LEFT,
   RIGHT,
   BOTH
-}; // Variable for which wheel you're interested in
-   //  when you do things in the encoder class.
+};  // Variable for which wheel you're interested in
+    //  when you do things in the encoder class.
 
 // These three functions need to work from within multiple classes, so we keep
 //  them separate and add them as friend functions where appropriate.
-void setPinChangeInterrupt(
-    int pin, byte role); // The "role" of each pin is
-                         //  stored in an array which is accessed in the
-                         //  interrupt handler to determine what should be done
-                         //  on a falling edge PC interrupt.
-void pinFunctionHandler(
-    byte pinIndex); // This is the function which actually
-                    //  handles the legwork after the interrupt has identified
-                    //  which pin caught the interrupt.
-void brake(void); // Globally accessible motor brake. I couldn't figure out how
-                  //  to set a function pointer to the RedBotMotors class
-                  //  function, and it's a small function, so I just made a
-                  //  global in the library.
+void setPinChangeInterrupt(int pin, byte role);  // The "role" of each pin is
+                                                 //  stored in an array which is accessed in the
+                                                 //  interrupt handler to determine what should be
+                                                 //  done on a falling edge PC interrupt.
+void pinFunctionHandler(byte pinIndex);          // This is the function which actually
+                                         //  handles the legwork after the interrupt has identified
+                                         //  which pin caught the interrupt.
+void brake(void);  // Globally accessible motor brake. I couldn't figure out how
+                   //  to set a function pointer to the RedBotMotors class
+                   //  function, and it's a small function, so I just made a
+                   //  global in the library.
 void PC0Handler(byte PBTemp);
 void PC1Handler(byte PCTemp);
 void PC2Handler(byte PDTemp);
 
 class RedBotMotors {
-public:
+ public:
   RedBotMotors() {}
   void drive(int speed) {}
   void drive(int speed, int duration) {}
@@ -88,12 +86,12 @@ public:
   void rightCoast() {}
   void leftCoast() {}
 
-  void leftBrake() {}  // Quick-stop left motor, as with brake().
-  void rightBrake() {} // Quick-stop right motor, as with brake().
+  void leftBrake() {}   // Quick-stop left motor, as with brake().
+  void rightBrake() {}  // Quick-stop right motor, as with brake().
 };
 
 class RedBotMotorsMock : public RedBotMotors {
-public:
+ public:
   MOCK_METHOD1(drive, void(int speed));
   MOCK_METHOD0(stop, void());
 };

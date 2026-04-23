@@ -4,10 +4,11 @@
 
 #define DEBUG_LOG false
 
-#include "arduino-mock/Arduino.h"
-#include "gtest/gtest.h"
-
 #include "arduino-mock/Spark.h"
+
+#include "arduino-mock/Arduino.h"
+
+#include "gtest/gtest.h"
 
 using ::testing::StrCaseEq;
 
@@ -18,11 +19,9 @@ TEST(publish, normal) {
   uint16_t wakeUpPin = 1;
   uint16_t edgeTriggerMode = FALLING;
   EXPECT_CALL(*sparkMock, variable(StrCaseEq("analogvalue"), &analogvalue));
-  EXPECT_CALL(*sparkMock,
-              function(StrCaseEq("funckey"), StrCaseEq("funcname")));
+  EXPECT_CALL(*sparkMock, function(StrCaseEq("funckey"), StrCaseEq("funcname")));
   EXPECT_CALL(*sparkMock, publish(StrCaseEq("test"), StrCaseEq("test")));
-  EXPECT_CALL(*sparkMock,
-              subscribe(StrCaseEq("temp_test"), StrCaseEq("myHandler")));
+  EXPECT_CALL(*sparkMock, subscribe(StrCaseEq("temp_test"), StrCaseEq("myHandler")));
   EXPECT_CALL(*sparkMock, connect());
   EXPECT_CALL(*sparkMock, disconnect());
   EXPECT_CALL(*sparkMock, connected());

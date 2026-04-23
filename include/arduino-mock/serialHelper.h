@@ -23,7 +23,7 @@
  *
  */
 class stringCapture {
-public:
+ public:
   stringCapture();
   bool captureUInt8(uint8_t c);
   bool captureUInt16(uint16_t c);
@@ -31,8 +31,8 @@ public:
   void clear();
   std::string get();
 
-private:
+ private:
   std::stringstream d;
 };
 
-#endif // SERIALHELPER_H
+#endif  // SERIALHELPER_H

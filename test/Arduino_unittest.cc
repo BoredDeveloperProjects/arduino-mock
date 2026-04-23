@@ -2,6 +2,7 @@
 // This example code is in the public domain.
 
 #include "arduino-mock/Arduino.h"
+
 #include "gtest/gtest.h"
 
 using ::testing::Return;

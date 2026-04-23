@@ -13,22 +13,22 @@
   \attention Este mock deberia moverse al repo del mock de arduino
 */
 class OneWireMock {
-public:
+ public:
   MOCK_METHOD1(search, bool(uint8_t *));
   MOCK_METHOD0(reset_search, void(void));
 };
 
 class OneWire {
-public:
+ public:
   OneWire(const uint8_t) {};
   bool search(uint8_t *buf);
   void reset_search(void);
 
-private:
+ private:
   uint8_t pin;
 };
 
 OneWireMock *oneWireMockInstance();
 void releaseOneWireMock();
 
-#endif // ONEWIRE_H
+#endif  // ONEWIRE_H

@@ -22,7 +22,7 @@
 #endif
 
 class PrintMock {
-public:
+ public:
   MOCK_METHOD2(write, size_t(const uint8_t *buffer, size_t size));
 
   MOCK_METHOD1(print, size_t(const char[]));
@@ -46,7 +46,7 @@ public:
 };
 
 class Print {
-public:
+ public:
   virtual size_t write(const uint8_t *buffer, size_t size);
 
   virtual size_t print(const char[]);
@@ -72,4 +72,4 @@ public:
 PrintMock *printMockInstance();
 void releasePrintMock();
 
-#endif // ARDUINO_MOCK_PRINT_H
+#endif  // ARDUINO_MOCK_PRINT_H

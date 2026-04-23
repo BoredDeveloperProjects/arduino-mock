@@ -30,5 +30,3 @@ if git grep --cached -I $'\r'; then
   echo "Do not use CRLF. Use LF."
   exit 1
 fi
-
-exit 0

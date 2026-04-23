@@ -39,13 +39,9 @@ void Wire_::onReceive(uint8_t *a) { p_WireMock->onReceive(a); }
 
 void Wire_::onRequest(uint8_t *a) { p_WireMock->onRequest(a); }
 
-uint8_t Wire_::endTransmission(uint8_t a) {
-  return p_WireMock->endTransmission(a);
-}
+uint8_t Wire_::endTransmission(uint8_t a) { return p_WireMock->endTransmission(a); }
 
-uint8_t Wire_::requestFrom(uint8_t a, uint8_t b) {
-  return p_WireMock->requestFrom(a, b);
-}
+uint8_t Wire_::requestFrom(uint8_t a, uint8_t b) { return p_WireMock->requestFrom(a, b); }
 
 uint8_t Wire_::requestFrom(uint8_t a, uint8_t b, uint8_t c) {
   return p_WireMock->requestFrom(a, b, c);

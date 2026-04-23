@@ -7,33 +7,33 @@
 #include <stdint.h>
 
 class WiFi_ {
-public:
-  void on();               // turns on WiFi module
-  void off();              // turns off WiFi module
-  void connect();          // Attempts to connect to the WiFi network
-  void disconnect();       // Disconnect from the Wifi network
-  bool connecting();       // Return true once the Core is attempting to connect
-  bool ready();            // Return true once Core is connected
-  void listen();           // Enter listening mode
-  bool listening();        // Return true once listen() has been called
-  void setCredentials();   // Allows user to set credentials
-  bool clearCredentials(); // Clear all saved credentials
-  bool hasCredentials(); // Return true if credentials have been already stored
-                         // in CC3000's memory
-  uint8_t macAddress();  // Return Mac Address of the device
-  char *SSID();          // return SSID of the network
-  int RSSI();            // return signal strength
-  void ping(char *);     // ping an IP address
+ public:
+  void on();                // turns on WiFi module
+  void off();               // turns off WiFi module
+  void connect();           // Attempts to connect to the WiFi network
+  void disconnect();        // Disconnect from the Wifi network
+  bool connecting();        // Return true once the Core is attempting to connect
+  bool ready();             // Return true once Core is connected
+  void listen();            // Enter listening mode
+  bool listening();         // Return true once listen() has been called
+  void setCredentials();    // Allows user to set credentials
+  bool clearCredentials();  // Clear all saved credentials
+  bool hasCredentials();    // Return true if credentials have been already stored
+                            // in CC3000's memory
+  uint8_t macAddress();     // Return Mac Address of the device
+  char *SSID();             // return SSID of the network
+  int RSSI();               // return signal strength
+  void ping(char *);        // ping an IP address
   void ping(char *,
-            uint8_t); // ping an IP address with a specified number of times
-  char *localIP();    // Return local IP address
-  char *subnetMask(); // Return Subnet mask of the network
-  char *gatewayIP();  // Return the gateway IP address
+            uint8_t);  // ping an IP address with a specified number of times
+  char *localIP();     // Return local IP address
+  char *subnetMask();  // Return Subnet mask of the network
+  char *gatewayIP();   // Return the gateway IP address
 };
 extern WiFi_ WiFi;
 
 class WiFiMock {
-public:
+ public:
   MOCK_METHOD0(on, void());
   MOCK_METHOD0(off, void());
   MOCK_METHOD0(connect, void());

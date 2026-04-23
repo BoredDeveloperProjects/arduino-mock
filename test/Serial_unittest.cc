@@ -1,9 +1,11 @@
 // Copyright 2014 http://switchdevice.com
 // This example code is in the public domain.
 
-#include "arduino-mock/Arduino.h"
 #include "arduino-mock/Serial.h"
+
+#include "arduino-mock/Arduino.h"
 #include "arduino-mock/serialHelper.h"
+
 #include "gtest/gtest.h"
 
 using ::testing::_;
@@ -15,8 +17,7 @@ using ::testing::Return;
 // static size_t println(int, int = DEC);
 TEST(serial, println1) {
   SerialMock *serialMock = serialMockInstance();
-  EXPECT_CALL(*serialMock, println(Matcher<int>(1), Matcher<int>(10)))
-      .WillRepeatedly(Return(1));
+  EXPECT_CALL(*serialMock, println(Matcher<int>(1), Matcher<int>(10))).WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.println(1, 10));
   releaseSerialMock();
 }
@@ -43,8 +44,7 @@ TEST(serial, println3) {
 TEST(serial, println4) {
   SerialMock *serialMock = serialMockInstance();
   unsigned char lala = 'a';
-  EXPECT_CALL(*serialMock,
-              println(Matcher<unsigned char>(lala), Matcher<int>(DEC)))
+  EXPECT_CALL(*serialMock, println(Matcher<unsigned char>(lala), Matcher<int>(DEC)))
       .WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.println(lala));
   releaseSerialMock();
@@ -54,8 +54,7 @@ TEST(serial, println4) {
 TEST(serial, println5) {
   SerialMock *serialMock = serialMockInstance();
   unsigned int lala = 1234;
-  EXPECT_CALL(*serialMock,
-              println(Matcher<unsigned int>(lala), Matcher<int>(DEC)))
+  EXPECT_CALL(*serialMock, println(Matcher<unsigned int>(lala), Matcher<int>(DEC)))
       .WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.println(lala, DEC));
   releaseSerialMock();
@@ -75,8 +74,7 @@ TEST(serial, println6) {
 TEST(serial, println7) {
   SerialMock *serialMock = serialMockInstance();
   unsigned long lala = 2345678;
-  EXPECT_CALL(*serialMock,
-              println(Matcher<unsigned long>(lala), Matcher<int>(DEC)))
+  EXPECT_CALL(*serialMock, println(Matcher<unsigned long>(lala), Matcher<int>(DEC)))
       .WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.println(lala, DEC));
   releaseSerialMock();
@@ -104,8 +102,7 @@ TEST(serial, println9) {
 TEST(serial, print1) {
   SerialMock *serialMock = serialMockInstance();
   int lala = 123;
-  EXPECT_CALL(*serialMock, print(Matcher<int>(lala), Matcher<int>(10)))
-      .WillRepeatedly(Return(1));
+  EXPECT_CALL(*serialMock, print(Matcher<int>(lala), Matcher<int>(10))).WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.print(lala, 10));
   releaseSerialMock();
 }
@@ -114,8 +111,7 @@ TEST(serial, print1) {
 TEST(serial, print2) {
   SerialMock *serialMock = serialMockInstance();
   const char lala[] = "haha";
-  EXPECT_CALL(*serialMock, print(Matcher<const char *>(lala)))
-      .WillRepeatedly(Return(4));
+  EXPECT_CALL(*serialMock, print(Matcher<const char *>(lala))).WillRepeatedly(Return(4));
   EXPECT_EQ(4, Serial.print(lala));
   releaseSerialMock();
 }
@@ -124,8 +120,7 @@ TEST(serial, print2) {
 TEST(serial, print3) {
   SerialMock *serialMock = serialMockInstance();
   char lala = 'a';
-  EXPECT_CALL(*serialMock, print(Matcher<char>(lala)))
-      .WillRepeatedly(Return(1));
+  EXPECT_CALL(*serialMock, print(Matcher<char>(lala))).WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.print(lala));
   releaseSerialMock();
 }
@@ -134,8 +129,7 @@ TEST(serial, print3) {
 TEST(serial, print4) {
   SerialMock *serialMock = serialMockInstance();
   unsigned char lala = 'a';
-  EXPECT_CALL(*serialMock,
-              print(Matcher<unsigned char>(lala), Matcher<int>(DEC)))
+  EXPECT_CALL(*serialMock, print(Matcher<unsigned char>(lala), Matcher<int>(DEC)))
       .WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.print(lala));
   releaseSerialMock();
@@ -145,8 +139,7 @@ TEST(serial, print4) {
 TEST(serial, print5) {
   SerialMock *serialMock = serialMockInstance();
   unsigned int lala = 1234;
-  EXPECT_CALL(*serialMock,
-              print(Matcher<unsigned int>(lala), Matcher<int>(DEC)))
+  EXPECT_CALL(*serialMock, print(Matcher<unsigned int>(lala), Matcher<int>(DEC)))
       .WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.print(lala, DEC));
   releaseSerialMock();
@@ -156,8 +149,7 @@ TEST(serial, print5) {
 TEST(serial, print6) {
   SerialMock *serialMock = serialMockInstance();
   long lala = 1234567;
-  EXPECT_CALL(*serialMock, print(Matcher<long>(lala), Matcher<int>(DEC)))
-      .WillRepeatedly(Return(1));
+  EXPECT_CALL(*serialMock, print(Matcher<long>(lala), Matcher<int>(DEC))).WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.print(lala, DEC));
   releaseSerialMock();
 }
@@ -166,8 +158,7 @@ TEST(serial, print6) {
 TEST(serial, print7) {
   SerialMock *serialMock = serialMockInstance();
   unsigned long lala = 2345678;
-  EXPECT_CALL(*serialMock,
-              print(Matcher<unsigned long>(lala), Matcher<int>(DEC)))
+  EXPECT_CALL(*serialMock, print(Matcher<unsigned long>(lala), Matcher<int>(DEC)))
       .WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.print(lala, DEC));
   releaseSerialMock();
@@ -177,8 +168,7 @@ TEST(serial, print7) {
 TEST(serial, print8) {
   SerialMock *serialMock = serialMockInstance();
   double lala = 3.14;
-  EXPECT_CALL(*serialMock, print(Matcher<double>(lala), Matcher<int>(2)))
-      .WillRepeatedly(Return(1));
+  EXPECT_CALL(*serialMock, print(Matcher<double>(lala), Matcher<int>(2))).WillRepeatedly(Return(1));
   EXPECT_EQ(1, Serial.print(lala, 2));
   releaseSerialMock();
 }

@@ -21,9 +21,7 @@ void SPIClass::usingInterrupt(uint8_t a) { p_SPIMock->usingInterrupt(a); }
 
 void SPIClass::notUsingInterrupt(uint8_t a) { p_SPIMock->notUsingInterrupt(a); }
 
-void SPIClass::beginTransaction(SPISettings a) {
-  return p_SPIMock->beginTransaction(a);
-}
+void SPIClass::beginTransaction(SPISettings a) { return p_SPIMock->beginTransaction(a); }
 
 uint8_t SPIClass::transfer(uint8_t a) { return p_SPIMock->transfer(a); }
 
@@ -39,9 +37,7 @@ void SPIClass::setBitOrder(uint8_t a) { p_SPIMock->setBitOrder(a); }
 
 void SPIClass::setDataMode(uint8_t a) { p_SPIMock->setDataMode(a); }
 
-void SPIClass::setClockDivider(uint8_t a) {
-  return p_SPIMock->setClockDivider(a);
-}
+void SPIClass::setClockDivider(uint8_t a) { return p_SPIMock->setClockDivider(a); }
 
 void SPIClass::attachInterrupt() { return p_SPIMock->attachInterrupt(); }
 

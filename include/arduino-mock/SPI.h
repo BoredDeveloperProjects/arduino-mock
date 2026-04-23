@@ -11,7 +11,7 @@ class SPISettings {
   uint8_t _b;
   uint8_t _c;
 
-public:
+ public:
   SPISettings(uint32_t a, uint8_t b, uint8_t c) : _a(a), _b(b), _c(c) {}
   SPISettings();
   bool operator==(const SPISettings &rhs) const {
@@ -20,7 +20,7 @@ public:
 };
 
 class SPIClass {
-public:
+ public:
   void begin();
   void usingInterrupt(uint8_t);
   void notUsingInterrupt(uint8_t);
@@ -40,7 +40,7 @@ public:
 extern SPIClass SPI;
 
 class SPIMock {
-public:
+ public:
   MOCK_METHOD0(begin, void());
   MOCK_METHOD1(usingInterrupt, void(uint8_t));
   MOCK_METHOD1(notUsingInterrupt, void(uint8_t));

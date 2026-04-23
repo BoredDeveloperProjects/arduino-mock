@@ -1,0 +1,39 @@
+---
+Language: Cpp
+BasedOnStyle: Google
+
+# Core formatting style
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+ColumnLimit: 100
+BreakBeforeBraces: Attach
+
+# Keep code compact, but avoid single-line if-statements
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+
+# Match existing pointer style in the repository
+DerivePointerAlignment: false
+PointerAlignment: Right
+
+# Keep include order deterministic
+SortIncludes: true
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^<.*>'
+    Priority: 1
+  - Regex: '^"arduino-mock/.*"'
+    Priority: 2
+  - Regex: '^".*"'
+    Priority: 3
+
+# Constructor initializer formatting
+BreakConstructorInitializers: BeforeColon
+ConstructorInitializerIndentWidth: 4
+
+# Avoid alignment churn across unrelated lines
+AlignConsecutiveAssignments: false
+AlignOperands: Align
+

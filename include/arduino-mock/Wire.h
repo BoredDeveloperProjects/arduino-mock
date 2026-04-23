@@ -10,7 +10,7 @@
 #define WIRE_INTERFACES_COUNT 1
 
 class Wire_ {
-public:
+ public:
   void begin();
   void begin(uint8_t);
   void begin(int);
@@ -34,7 +34,7 @@ public:
 extern Wire_ Wire;
 
 class WireMock {
-public:
+ public:
   MOCK_METHOD0(begin, void());
   MOCK_METHOD1(begin, void(uint8_t));
   MOCK_METHOD1(begin, void(int));

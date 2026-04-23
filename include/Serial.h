@@ -13,7 +13,7 @@
 #define BIN 2
 
 class SerialMock {
-public:
+ public:
   MOCK_METHOD0(getWriteError, int());
   MOCK_METHOD0(clearWriteError, void());
   MOCK_METHOD1(write, size_t(uint8_t));
@@ -48,7 +48,7 @@ public:
 };
 
 class Serial_ {
-public:
+ public:
   static size_t print(const char[]);
   static size_t print(char);
   static size_t print(unsigned char, int = DEC);
@@ -96,4 +96,4 @@ extern Serial_ Serial;
 SerialMock *serialMockInstance();
 void releaseSerialMock();
 
-#endif // SERIAL_H
+#endif  // SERIAL_H

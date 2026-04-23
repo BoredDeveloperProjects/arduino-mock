@@ -1,8 +1,9 @@
+#include "arduino-mock/serialHelper.h"
+
 #include "arduino-mock/Arduino.h"
 #include "arduino-mock/Serial.h"
-#include "gtest/gtest.h"
 
-#include "arduino-mock/serialHelper.h"
+#include "gtest/gtest.h"
 
 using ::testing::_;
 using ::testing::AtLeast;
@@ -43,8 +44,7 @@ TEST(serial, stringCapture2) {
   stringCapture c;
 
   testing::DefaultValue<uint8_t>::Set(5);
-  EXPECT_CALL(*serialMock,
-              write(Matcher<const uint8_t *>(_), Matcher<size_t>(_)))
+  EXPECT_CALL(*serialMock, write(Matcher<const uint8_t *>(_), Matcher<size_t>(_)))
       .WillRepeatedly(Invoke(&c, &stringCapture::captureCStr));
   EXPECT_EQ(1, Serial.write((const uint8_t *)"abcde", 5));
 

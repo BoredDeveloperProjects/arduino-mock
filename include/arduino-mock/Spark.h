@@ -13,7 +13,7 @@
 #define BIN 2
 
 class SparkMock {
-public:
+ public:
   MOCK_METHOD2(variable, void(const char *, int *));
   MOCK_METHOD2(function, void(const char *, const char *));
   MOCK_METHOD2(publish, void(const char *, const char *));
@@ -31,26 +31,26 @@ public:
 };
 
 class Spark_ {
-public:
+ public:
   void variable(const char *name, int *p_value);
   void function(const char *funckey, const char *funcname);
   static void publish(const char *eventName, const char *data);
   void subscribe(const char *name, const char *cbHandler);
   void connect();
   void disconnect();
-  bool connected();        // return true once connected
-  void process();          // checks the Wi-Fi module for incoming message
-  char *deviceID();        // return the device ID
-  void sleep();            // put the module in sleep mode
-  void sleep(int seconds); // put the module in sleep mode in [seconds] period
+  bool connected();         // return true once connected
+  void process();           // checks the Wi-Fi module for incoming message
+  char *deviceID();         // return the device ID
+  void sleep();             // put the module in sleep mode
+  void sleep(int seconds);  // put the module in sleep mode in [seconds] period
   void sleep(const char *sleep_mode,
-             int seconds); // put the wifi module in deep sleep mode
+             int seconds);  // put the wifi module in deep sleep mode
   void sleep(uint16_t wakeUpPin, uint16_t edgeTriggerMode, int seconds);
-  void syncTime(); // Synchronize time with the Spark Cloud
+  void syncTime();  // Synchronize time with the Spark Cloud
 };
 extern Spark_ Spark;
 
 SparkMock *sparkMockInstance();
 void releaseSparkMock();
 
-#endif // SPARK_H
+#endif  // SPARK_H

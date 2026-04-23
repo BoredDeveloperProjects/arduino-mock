@@ -1,6 +1,7 @@
 #include "arduino-mock/Arduino.h"
+
 #include <ctime>
-#define SECS_YR_2000 ((time_t)(946684800UL)) // the time at the start of y2k
+#define SECS_YR_2000 ((time_t)(946684800UL))  // the time at the start of y2k
 
 static ArduinoMock *arduinoMock = NULL;
 ArduinoMock *arduinoMockInstance() {
@@ -71,8 +72,7 @@ time_t pulseIn(uint8_t pin, uint8_t state, time_t timeout) {
   return 0;
 }
 
-void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder,
-              uint8_t val) {
+void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val) {
   UNUSED(dataPin);
   UNUSED(clockPin);
   UNUSED(bitOrder);

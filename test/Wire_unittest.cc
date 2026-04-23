@@ -1,5 +1,7 @@
-#include "arduino-mock/Arduino.h"
 #include "arduino-mock/Wire.h"
+
+#include "arduino-mock/Arduino.h"
+
 #include "gtest/gtest.h"
 
 using ::testing::Return;

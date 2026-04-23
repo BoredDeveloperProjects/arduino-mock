@@ -1,11 +1,12 @@
 #ifndef STREAM_H
 #define STREAM_H
 
-#include "Print.h"
 #include <gmock/gmock.h>
 
+#include "Print.h"
+
 class Stream : public Print {
-public:
+ public:
   virtual int available() = 0;
   virtual int read() = 0;
   virtual int peek() = 0;
@@ -46,7 +47,7 @@ public:
 };
 
 class StreamMock : public Stream {
-public:
+ public:
   MOCK_METHOD0(available, int());
   MOCK_METHOD0(read, int());
   MOCK_METHOD0(peek, int());

@@ -4,10 +4,10 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
-#include "Print.h"
-
 #include <gmock/gmock.h>
 #include <stdint.h>
+
+#include "Print.h"
 
 using ::testing::_;
 using ::testing::DoDefault;
@@ -17,8 +17,7 @@ using ::testing::Invoke;
   \see #SoftwareSerialFake
 */
 class SerialFake {
-
-public:
+ public:
   /**
     \brief Load user specified data into SerialFake buffer
     \param buffer User buffer to copy the data from
@@ -33,7 +32,7 @@ public:
   uint8_t read();
   uint8_t at(const uint8_t index);
 
-private:
+ private:
   static const uint8_t buffer_size = 128;
   uint8_t buffer[buffer_size] = {0};
   uint8_t buffer_head = 0;
@@ -41,7 +40,7 @@ private:
 };
 
 class SerialMock {
-public:
+ public:
   MOCK_METHOD0(getWriteError, int());
   MOCK_METHOD0(clearWriteError, void());
   MOCK_METHOD1(write, size_t(uint8_t));
@@ -85,8 +84,7 @@ public:
     \param ignore_calls Flag to set the mock to expect and ignore all calls on
            methods related to the buffer (available, read and operator [])
   */
-  void mock_buffer_load(uint8_t buffer[], const uint8_t len,
-                        bool ignore_calls = true) {
+  void mock_buffer_load(uint8_t buffer[], const uint8_t len, bool ignore_calls = true) {
     fake_.buffer_load(buffer, len);
     if (ignore_calls) {
       EXPECT_CALL(*this, available()).WillRepeatedly(DoDefault());
@@ -94,8 +92,7 @@ public:
       EXPECT_CALL(*this, at(_)).WillRepeatedly(DoDefault());
     }
   }
-  void mock_buffer_load(char buffer[], const uint8_t len,
-                        bool ignore_calls = true) {
+  void mock_buffer_load(char buffer[], const uint8_t len, bool ignore_calls = true) {
     mock_buffer_load((uint8_t *)buffer, len, ignore_calls);
   }
 
@@ -112,19 +109,18 @@ public:
           .WillByDefault(Invoke(&fake_, &SerialFake::at));
   }*/
 
-private:
-  SerialFake fake_; // Keeps an instance of the fake in the mock.
+ private:
+  SerialFake fake_;  // Keeps an instance of the fake in the mock.
 };
 
 class Serial_ : public Print {
-
-private:
+ private:
   static bool printToCout;
 
-public:
+ public:
   static void setPrintToCout(bool flag);
 
-public:
+ public:
   virtual size_t print(const char[]) override;
   virtual size_t print(char) override;
   virtual size_t print(unsigned char, int = DEC) override;
@@ -176,4 +172,4 @@ extern Serial_ Serial;
 SerialMock *serialMockInstance();
 void releaseSerialMock();
 
-#endif // SERIAL_H
+#endif  // SERIAL_H
