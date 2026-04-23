@@ -31,33 +31,48 @@ if (-not $files -or $files.Count -eq 0) {
 
 Write-Host "[INFO] Found $($files.Count) file(s) to format"
 
+$changedCount = 0
+
 if ($PSVersionTable.PSVersion.Major -ge 7) {
     Write-Host "[INFO] Using parallel formatting (PowerShell 7+)"
 
-    $files | ForEach-Object -Parallel {
+    $changedFlags = $files | ForEach-Object -Parallel {
         $relativePath = $_ -replace '\\', '/'
+        $filePath = Join-Path $using:repoRoot $relativePath
+        $beforeHash = (Get-FileHash -Algorithm SHA256 -Path $filePath).Hash
         Write-Host "[FORMAT] $relativePath"
-        & clang-format -i $relativePath
+        & clang-format -i $filePath
         if ($LASTEXITCODE -ne 0) {
             throw "clang-format failed for $relativePath"
         }
+        $afterHash = (Get-FileHash -Algorithm SHA256 -Path $filePath).Hash
+        $beforeHash -ne $afterHash
     } -ThrottleLimit 8
+
+    $changedCount = @($changedFlags | Where-Object { $_ }).Count
 }
 else {
     Write-Host "[INFO] PowerShell 7+ not detected, using sequential fallback"
 
     foreach ($file in $files) {
         $relativePath = $file -replace '\\', '/'
+        $filePath = Join-Path $repoRoot $relativePath
+        $beforeHash = (Get-FileHash -Algorithm SHA256 -Path $filePath).Hash
         Write-Host "[FORMAT] $relativePath"
-        & clang-format -i $relativePath
+        & clang-format -i $filePath
         if ($LASTEXITCODE -ne 0) {
             Write-Error "clang-format failed for $relativePath"
             exit 1
+        }
+        $afterHash = (Get-FileHash -Algorithm SHA256 -Path $filePath).Hash
+        if ($beforeHash -ne $afterHash) {
+            $changedCount++
         }
     }
 }
 
 Write-Host "[INFO] Formatting complete"
+Write-Host "[INFO] clang-format changed $changedCount file(s)"
 
 Write-Host "[INFO] Checking staged files for CRLF line endings..."
 $crlfOutput = git grep --cached -I ([char]13) 2>$null

@@ -21,13 +21,22 @@ if [ -z "$files" ]; then
 fi
 
 echo "[INFO] Formatting files"
+changed_count=0
 while IFS= read -r file; do
   [ -n "$file" ] || continue
+  tmp_file="$(mktemp)"
+  cp "$file" "$tmp_file"
   echo "[FORMAT] $file"
   clang-format -i "$file"
+  if ! cmp -s "$file" "$tmp_file"; then
+    changed_count=$((changed_count + 1))
+  fi
+  rm -f "$tmp_file"
 done <<EOF
 $files
 EOF
+
+echo "[INFO] clang-format changed $changed_count file(s)"
 
 if git grep --cached -I $'\r'; then
   echo "Do not use CRLF. Use LF."
