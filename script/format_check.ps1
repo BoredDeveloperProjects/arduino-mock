@@ -2,9 +2,27 @@ $ErrorActionPreference = "Stop"
 
 Set-Location -Path $PSScriptRoot
 
-& .\codeformatter.ps1
-if ($LASTEXITCODE -ne 0) {
-    exit $LASTEXITCODE
+$formatterOutput = & .\codeformatter.ps1 2>&1
+$formatterExitCode = $LASTEXITCODE
+
+$formatterOutput | ForEach-Object {
+    Write-Host $_
+}
+
+$changedCount = 0
+$countLine = $formatterOutput |
+    ForEach-Object { $_.ToString() } |
+    Where-Object { $_ -match '^\[INFO\] clang-format changed (\d+) file\(s\)$' } |
+    Select-Object -Last 1
+
+if ($countLine -match '^\[INFO\] clang-format changed (\d+) file\(s\)$') {
+    $changedCount = [int]$Matches[1]
+}
+
+Write-Host "[INFO] Formatter changed $changedCount file(s) in this run"
+
+if ($formatterExitCode -ne 0) {
+    exit $formatterExitCode
 }
 
 git diff --quiet -- .
@@ -12,7 +30,7 @@ $diffExitCode = $LASTEXITCODE
 
 if ($diffExitCode -eq 1) {
     Write-Host ""
-    Write-Host "[ERROR] Formatting issues were found and auto-corrected."
+    Write-Host "[ERROR] Formatting issues were found and auto-corrected ($changedCount file(s) changed)."
     Write-Host "[INFO] The commit was stopped so you can review the formatting changes."
     Write-Host "[INFO] Next steps:"
     Write-Host "  1. Review the diff"
@@ -33,7 +51,7 @@ elseif ($diffExitCode -ne 0) {
     exit $diffExitCode
 }
 
-Write-Host "[INFO] Formatting OK"
+Write-Host "[INFO] Formatting OK ($changedCount file(s) changed)"
 
 $crlfOutput = git grep --cached -I ([char]13) 2>$null
 $crlfExitCode = $LASTEXITCODE
