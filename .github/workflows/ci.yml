@@ -19,24 +19,47 @@ jobs:
             - name: Install clang-format
               run: |
                   sudo apt-get update
-                  sudo apt-get install -y clang-format
+                  sudo apt-get install -y clang-format-22
+
+            - name: Set clang-format binary
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  echo "CLANG_FORMAT=clang-format-22" >> "$GITHUB_ENV"
 
             - name: Show clang-format version
-              run: clang-format --version
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  "$CLANG_FORMAT" --version
+
+            - name: Verify clang-format version is pinned
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  VERSION_STR=$("$CLANG_FORMAT" --version)
+                  echo "$VERSION_STR"
+                  if [[ "$VERSION_STR" != *"22.1.1"* ]]; then
+                    echo "Expected clang-format 22.1.1 but got: $VERSION_STR"
+                    exit 1
+                  fi
 
             - name: Check formatting
               shell: bash
               run: |
                   set -euo pipefail
 
-                  FILES=$(git ls-files '*.h' '*.cc')
+                  FILES=$(git ls-files '*.h' '*.cc' '*.cpp')
 
                   if [ -z "$FILES" ]; then
                     echo "No source files found"
                     exit 0
                   fi
 
-                  clang-format -i $FILES
+                  while IFS= read -r file; do
+                    [ -n "$file" ] || continue
+                    "$CLANG_FORMAT" -i "$file"
+                  done <<< "$FILES"
 
                   if ! git diff --quiet; then
                     echo "Code is not formatted correctly. Please run clang-format."
@@ -51,6 +74,7 @@ jobs:
               run: |
                   set -euo pipefail
 
+                  echo "Checking repository-tracked text files for CRLF line endings"
                   if git grep -I $'\r'; then
                     echo "Do not use CRLF."
                     echo "Please convert to LF, Unix new line style."
