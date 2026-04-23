@@ -4,15 +4,15 @@ project(arduino_mock)
 
 find_package(Threads REQUIRED)
 
-# If we are a stand-alone project (not included via add_subdirectory)
+# Detect whether this project is the top-level build.
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     set(ARDUINO_MOCK_TOP_LEVEL ON)
 else()
     set(ARDUINO_MOCK_TOP_LEVEL OFF)
 endif()
 
-# If we are a stand-alone project and googletest/googlemock are not already
-# provided, make sure to download them.
+# If we are a stand-alone project (not included via add_subdirectory())
+# and GoogleTest/GoogleMock have not already been provided, fetch them.
 if(ARDUINO_MOCK_TOP_LEVEL)
     if(NOT TARGET gmock_main)
         include(FetchContent)
@@ -61,14 +61,11 @@ set_target_properties(arduino_mock
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
-# Standard CMake testing option. Default ON for top-level builds, OFF when used
-# as a subdirectory in another project.
+# Only expose CTest's standard BUILD_TESTING option for top-level builds.
+# This keeps library subprojects from enabling tests by default.
 if(ARDUINO_MOCK_TOP_LEVEL)
-    option(BUILD_TESTING "Build tests" ON)
-else()
-    option(BUILD_TESTING "Build tests" OFF)
+    include(CTest)
 endif()
-include(CTest)
 
 if(BUILD_TESTING)
     add_subdirectory(test)
