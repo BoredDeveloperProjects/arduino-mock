@@ -1,30 +1,24 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -eu
 
-set -ue
 cd -- "$(dirname -- "${0}")"
 
-# astyle installed?
-if hash astyle 2>/dev/null; then
-	if astyle --version 2>&1 | grep 2.03; then
-		echo astyle is found.
-	else
-		echo WARNING: astyle is found but it is not 2.03.
-	fi
-else
-	echo "Please install astyle 2.03"
-	echo "ex)"
-	echo "  Linux: $ apt-get install astyle"
-	echo "  Win: (Download from http://astyle.sourceforge.net )"
-	echo "  MacOS:"
-	echo "    $ brew tap ikeyasu/myversions"
-	echo "    $ brew install astyle"
-	exit 1
+# Check clang-format exists
+if ! command -v clang-format >/dev/null 2>&1; then
+  echo "clang-format not found"
+  echo "Install:"
+  echo "  Linux: sudo apt install clang-format"
+  echo "  Mac: brew install llvm"
+  echo "  Windows (Scoop): scoop install llvm"
+  exit 1
 fi
 
-astyle --mode=c --style=java --indent=spaces=2 --indent-classes --pad-oper ../include/*/*.h ../**/*.cc
+# Format files in-place
+find ../ -type f \( -name "*.h" -o -name "*.cc" -o -name "*.cpp" \) \
+  -exec clang-format -i {} +
 
+# Check CRLF
 if git grep --cached -I $'\r'; then
-	echo Do not use CRLF.
-	echo Please convert to LF, Unix new line style.
-	exit 1
+  echo "Do not use CRLF. Use LF."
+  exit 1
 fi

@@ -1,27 +1,18 @@
-# format_check.ps1
 $ErrorActionPreference = "Stop"
 Set-Location -Path $PSScriptRoot
 
-# Run formatter
 .\codeformatter.ps1
 
-# Check for .orig files
-$origFiles = Get-ChildItem -Recurse -Filter *.orig
-if ($origFiles) {
+if (!(git diff --quiet)) {
     git diff
-    Write-Error "Formatting issues detected. Run formatter locally."
+    Write-Error "Formatting issues detected"
     exit 1
-}
-else {
+} else {
     Write-Host "Formatting OK"
 }
 
-# Check CRLF
-$crlfFiles = git grep -I "`r"
-if ($crlfFiles) {
-    Write-Error "CRLF detected. Use LF line endings."
+$crlf = git grep -I "`r"
+if ($crlf) {
+    Write-Error "CRLF detected"
     exit 1
-}
-else {
-    Write-Host "Line endings OK"
 }
