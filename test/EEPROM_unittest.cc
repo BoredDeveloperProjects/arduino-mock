@@ -1,10 +1,10 @@
-#include "gtest/gtest.h"
-#include "arduino-mock/EEPROM.h"
 #include "arduino-mock/Arduino.h"
+#include "arduino-mock/EEPROM.h"
+#include "gtest/gtest.h"
 using ::testing::Return;
 
 TEST(EEPROM, access) {
-  EEPROMMock* mock = EEPROMMockInstance();
+  EEPROMMock *mock = EEPROMMockInstance();
   int expected_address = 5;
   int expected_value = 6;
   EXPECT_CALL(*mock, read(expected_value));

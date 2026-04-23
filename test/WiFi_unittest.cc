@@ -1,12 +1,12 @@
-#include "gtest/gtest.h"
-#include "arduino-mock/WiFi.h"
 #include "arduino-mock/Arduino.h"
+#include "arduino-mock/WiFi.h"
+#include "gtest/gtest.h"
 
 WiFi_ wifi;
 
 using ::testing::Return;
 TEST(wire, access) {
-  WiFiMock* mock = WiFiMockInstance();
+  WiFiMock *mock = WiFiMockInstance();
   char IPAddr[] = "192.168.0.1";
   uint8_t n_times = 10;
   EXPECT_CALL(*mock, on());

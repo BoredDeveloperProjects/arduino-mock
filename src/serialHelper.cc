@@ -1,8 +1,6 @@
 #include "arduino-mock/serialHelper.h"
 
-stringCapture::stringCapture()
-  : d() {
-}
+stringCapture::stringCapture() : d() {}
 
 bool stringCapture::captureUInt16(uint16_t c) {
   d << c;
@@ -15,15 +13,10 @@ bool stringCapture::captureUInt8(uint8_t c) {
 }
 
 bool stringCapture::captureCStr(const uint8_t *buffer, size_t size) {
-  d << std::string((const char*)buffer, size);
+  d << std::string((const char *)buffer, size);
   return true;
 }
 
-void stringCapture::clear() {
-  return d.str("");
-}
+void stringCapture::clear() { return d.str(""); }
 
-std::string stringCapture::get() {
-  return d.str();
-}
-
+std::string stringCapture::get() { return d.str(); }

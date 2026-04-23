@@ -1,30 +1,28 @@
 #include "arduino-mock/OneWire.h"
 
-static OneWireMock* gOneWireMock = NULL;
+static OneWireMock *gOneWireMock = NULL;
 
-OneWireMock* oneWireMockInstance() {
-    if( !gOneWireMock ) {
-        gOneWireMock = new OneWireMock();
-    }
+OneWireMock *oneWireMockInstance() {
+  if (!gOneWireMock) {
+    gOneWireMock = new OneWireMock();
+  }
 
-    return gOneWireMock;
+  return gOneWireMock;
 }
-
 
 void releaseOneWireMock() {
-    if( gOneWireMock ) {
-        delete gOneWireMock;
-        gOneWireMock = NULL;
-    }
+  if (gOneWireMock) {
+    delete gOneWireMock;
+    gOneWireMock = NULL;
+  }
 }
 
-
-bool OneWire::search( uint8_t* buf ) {
-    assert( gOneWireMock != NULL );
-    return gOneWireMock->search( buf );
+bool OneWire::search(uint8_t *buf) {
+  assert(gOneWireMock != NULL);
+  return gOneWireMock->search(buf);
 }
 
-void OneWire::reset_search( void ) {
-    assert( gOneWireMock != NULL );
-    gOneWireMock->reset_search( );
+void OneWire::reset_search(void) {
+  assert(gOneWireMock != NULL);
+  gOneWireMock->reset_search();
 }

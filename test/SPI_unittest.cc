@@ -1,7 +1,6 @@
-#include "gtest/gtest.h"
-#include "arduino-mock/SPI.h"
 #include "arduino-mock/Arduino.h"
-
+#include "arduino-mock/SPI.h"
+#include "gtest/gtest.h"
 
 using ::testing::Return;
 TEST(SPITest, access) {
@@ -9,11 +8,11 @@ TEST(SPITest, access) {
   uint8_t value2 = 12;
   uint16_t value = 3;
   char text[] = "Mock test";
-  uint8_t* callback_func = NULL;
-  void* voidTest = NULL;
+  uint8_t *callback_func = NULL;
+  void *voidTest = NULL;
 
   SPISettings settings(1, 2, 3);
-  SPIMock* mock = SPIMockInstance();
+  SPIMock *mock = SPIMockInstance();
 
   EXPECT_CALL(*mock, begin());
   EXPECT_CALL(*mock, usingInterrupt(value1));
@@ -29,7 +28,6 @@ TEST(SPITest, access) {
   EXPECT_CALL(*mock, setClockDivider(value1));
   EXPECT_CALL(*mock, attachInterrupt());
   EXPECT_CALL(*mock, detachInterrupt());
-
 
   SPI.begin();
   SPI.usingInterrupt(value1);

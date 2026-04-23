@@ -5,9 +5,9 @@
 #ifndef SERIALHELPER_H
 #define SERIALHELPER_H
 
+#include <sstream>
 #include <stdint.h>
 #include <string>
-#include <sstream>
 
 /*
  * stringCapture
@@ -23,17 +23,16 @@
  *
  */
 class stringCapture {
-  public:
-    stringCapture();
-    bool captureUInt8(uint8_t c);
-    bool captureUInt16(uint16_t c);
-    bool captureCStr(const uint8_t *buffer, size_t size);
-    void clear();
-    std::string get();
+public:
+  stringCapture();
+  bool captureUInt8(uint8_t c);
+  bool captureUInt16(uint16_t c);
+  bool captureCStr(const uint8_t *buffer, size_t size);
+  void clear();
+  std::string get();
 
-  private:
-    std::stringstream d;
+private:
+  std::stringstream d;
 };
-
 
 #endif // SERIALHELPER_H
